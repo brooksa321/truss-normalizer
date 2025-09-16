@@ -315,6 +315,7 @@ func ProcessTotalDuration(records [][]string) ([][]string, error) {
 	return updated, nil
 }
 
+// ProcessNotes cleans the notes column of any non utf-8 characters
 func ProcessNotes(records [][]string) ([][]string, error) {
 	if len(records) == 0 {
 		return records, nil
@@ -345,7 +346,6 @@ func ProcessNotes(records [][]string) ([][]string, error) {
 				cleaned, _, err := transform.String(unicode.UTF8.NewDecoder(), val)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "Warning: failed to clean invalid UTF-8 in Notes: %v\n", err)
-					// Optionally: leave it untouched or set to empty string
 				} else {
 					newRow[notesIndex] = cleaned
 				}
